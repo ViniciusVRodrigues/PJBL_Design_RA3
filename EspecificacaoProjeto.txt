@@ -1,0 +1,45 @@
+ESPECIFICAÇÃO PARA O PROJETO REFERENTE À AVALIAÇÃO SOMATIVA DO RA3
+
+Fazer o mapeamento objeto relacional (ORM) com no mínimo 5 classes. Não é obrigatório o uso de herança;
+Elaborar o diagrama de classes;
+Deve ser implementado o CRUD para cada uma delas;
+Deve ser implementado em Java e utilizar o JPA com EclipseLink (conforme vimos em sala).
+
+Deve ser enviado para o Canvas:
+
+O diagrama de classes;
+Código-fonte do projeto;
+Reflexão sobre as maiores dificuldades neste projeto.
+
+As cinco classes serão:
+
+Classe Cliente (Customer)
+Atributos: nome, email, endereco, telefone, ID
+Métodos: registrarCliente(), atualizarInformacoes(), visualizarHistoricoPedidos()
+
+Classe Produto (Product)
+Atributos: nome, descricao, preco, estoque, ID
+Métodos: atualizarEstoque(), verificarDisponibilidade()
+
+Classe Pedido (Order)
+Atributos: ID, data, status, valorTotal, cliente: Cliente, produtos: List<Produto>
+Métodos: calcularValorTotal(), atualizarStatus(), confirmarPedido()
+
+Classe CarrinhoDeCompras (ShoppingCart)
+Atributos: ID, produtos: List<Produto>, quantidadeTotal, valorTotal
+Métodos: adicionarProduto(), removerProduto(), calcularValorTotal()
+
+Classe Pagamento (Payment)
+Atributos: ID, dataPagamento, valor, metodoPagamento, status
+Métodos: processarPagamento(), confirmarPagamento()
+
+Relações entre as Classes
+Associação:
+
+Pedido está associado ao Cliente, pois cada pedido pertence a um cliente específico.
+Pedido possui uma lista de Produto porque um pedido pode conter vários produtos.
+CarrinhoDeCompras possui uma lista de Produto, pois o carrinho é preenchido pelos itens que o cliente deseja comprar.
+Dependência:
+
+Pedido depende de Pagamento, pois o pedido só é finalizado após o pagamento ser confirmado.
+CarrinhoDeCompras depende de Produto e Pedido, pois utiliza produtos que serão eventualmente convertidos em um pedido.
