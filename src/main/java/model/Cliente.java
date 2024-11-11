@@ -1,70 +1,88 @@
 package model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 public class Cliente {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+
 	private String nome;
 	private String email;
-	private String cpf;
-	private String fone;
-	
-	public Cliente(String nome, String email, String cpf, String fone) {
+	private String endereco;
+	private String telefone;
+
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+	private List<Pedido> historicoPedidos;
+
+	public Cliente(String nome, String email, String endereco, String telefone) {
 		this.nome = nome;
 		this.email = email;
-		this.cpf = cpf;
-		this.fone = fone;
+		this.endereco = endereco;
+		this.telefone = telefone;
 	}
-	
+
 	public Cliente() {
-		
 	}
-	
-	public Long getId() {
+
+	//Getters e Setters
+
+	public int getId() {
 		return id;
 	}
-	
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
+
 	public String getNome() {
 		return nome;
 	}
-	
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}
-	
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	public String getCpf() {
-		return cpf;
+
+	public String getEndereco() {
+		return endereco;
 	}
-	
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
 	}
-	
-	public String getFone() {
-		return fone;
+
+	public String getTelefone() {
+		return telefone;
 	}
-	
-	public void setFone(String fone) {
-		this.fone = fone;
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
 	}
-	
+
+	public List<Pedido> getHistoricoPedidos() {
+		return historicoPedidos;
+	}
+
+	public void adicionarPedido(Pedido pedido) {
+		this.historicoPedidos.add(pedido);
+	}
+
+	public void removerPedido(Pedido pedido) {
+		this.historicoPedidos.remove(pedido);
+	}
+
+	public void atualizarPedido(Pedido pedido) {
+		for (Pedido p : historicoPedidos) {
+			if (p.getId() == pedido.getId()) {
+				p = pedido;
+			}
+		}
+	}
 }
