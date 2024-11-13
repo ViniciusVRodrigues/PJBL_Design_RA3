@@ -29,20 +29,21 @@ public class ClienteRepository {
         return emf.createEntityManager();
     }
 
-    public void adicionarCliente(Cliente cliente) {
+    public boolean adicionarCliente(Cliente cliente) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             em.persist(cliente);
             em.getTransaction().commit();
+            return true;
         } catch (RuntimeException e) {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw e; // Rethrow exception after transaction rollback
         } finally {
             em.close();
         }
+        return false;
     }
 
     public Cliente buscarCliente(int id) {
@@ -54,20 +55,30 @@ public class ClienteRepository {
         }
     }
 
-    public void atualizarCliente(Cliente cliente) {
+    public List<Cliente> listarClientes() {
+        EntityManager em = getEntityManager();
+        try {
+            return em.createQuery("select c from Cliente c", Cliente.class).getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public boolean atualizarCliente(Cliente cliente) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             em.merge(cliente);
             em.getTransaction().commit();
+            return true;
         } catch (RuntimeException e) {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw e; // Rethrow exception after transaction rollback
         } finally {
             em.close();
         }
+        return false;
     }
 
     public List<Pedido> obterHistoricoPedidos(int clienteId) {
@@ -80,21 +91,22 @@ public class ClienteRepository {
         }
     }
 
-    public void removerCliente(int id) {
+    public boolean removerCliente(int id) {
         EntityManager em = getEntityManager();
         try {
             Cliente cliente = em.find(Cliente.class, id);
             em.getTransaction().begin();
             em.remove(cliente);
             em.getTransaction().commit();
+            return true;
         } catch (RuntimeException e) {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw e; // Rethrow exception after transaction rollback
         } finally {
             em.close();
         }
+        return false;
     }
 }
 

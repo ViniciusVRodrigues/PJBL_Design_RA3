@@ -17,7 +17,8 @@ public class Cliente {
 	private String endereco;
 	private String telefone;
 
-	@OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "carrinho_id", referencedColumnName = "id")
 	private Carrinho carrinho;
 
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
@@ -106,5 +107,16 @@ public class Cliente {
 
 	public Carrinho getCarrinho() {
 		return carrinho;
+	}
+
+	@Override
+	public String toString() {
+		return "Cliente{" +
+				"id=" + id +
+				", nome='" + nome + '\'' +
+				", email='" + email + '\'' +
+				", endereco='" + endereco + '\'' +
+				", telefone='" + telefone + '\'' +
+				'}';
 	}
 }

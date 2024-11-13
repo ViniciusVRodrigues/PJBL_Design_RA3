@@ -21,7 +21,8 @@ public class Pedido {
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    @OneToOne(mappedBy = "pedido")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pagamento_id", referencedColumnName = "id")
     private Pagamento pagamento;
 
     @ManyToMany
@@ -32,12 +33,14 @@ public class Pedido {
     )
     private List<Produto> produtos;
 
-    public Pedido(Date data, String status, double valorTotal, Cliente cliente, List<Produto> produtos) {
+    public Pedido(Cliente cliente, Date data, String status, Pagamento pagamento) {
+        this.cliente = cliente;
         this.data = data;
         this.status = status;
-        this.valorTotal = valorTotal;
-        this.cliente = cliente;
-        this.produtos = produtos;
+        this.valorTotal = cliente.getCarrinho().getValorTotal();
+        this.produtos = cliente.getCarrinho().getProdutos();
+        cliente.getCarrinho().limparCarrinho();
+        this.pagamento = pagamento;
     }
 
     public Pedido() {
@@ -87,6 +90,22 @@ public class Pedido {
 
     public void setProdutos(List<Produto> produtos) {
         this.produtos = produtos;
+    }
+
+    public Pagamento getPagamento() {
+        return pagamento;
+    }
+
+    @Override
+    public String toString() {
+        return "Pedido{" +
+                "id=" + id +
+                ", data=" + data +
+                ", status='" + status + '\'' +
+                ", valorTotal=" + valorTotal +
+                ", cliente=" + cliente.getNome() +
+                ", pagamento=" + pagamento.getStatus() +
+                '}';
     }
 }
 

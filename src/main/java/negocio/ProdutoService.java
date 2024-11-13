@@ -3,27 +3,34 @@ package negocio;
 import dados.ProdutoRepository;
 import model.Produto;
 
+import java.util.List;
+
 public class ProdutoService {
     private ProdutoRepository produtoRepo = ProdutoRepository.getInstance();
 
-    public void adicionarProduto(String nome, String descricao,double preco , int estoque) {
+    public boolean adicionarProduto(String nome, String descricao,double preco , int estoque) {
         Produto produto = new Produto(nome, descricao, preco, estoque);
-        produtoRepo.adicionarProduto(produto);
+        return produtoRepo.adicionarProduto(produto);
     }
 
-    public void removerProduto(int id) {
-        produtoRepo.removerProduto(id);
+    public boolean removerProduto(int id) {
+        return produtoRepo.removerProduto(id);
     }
 
-    public void atualizarProduto(Produto produto) {
-        produtoRepo.atualizarProduto(produto);
+    public boolean atualizarProduto(int id, String nome, String descricao,double preco , int estoque) {
+        Produto produto = produtoRepo.buscarProduto(id);
+        produto.setNome(nome);
+        produto.setDescricao(descricao);
+        produto.setPreco(preco);
+        produto.setEstoque(estoque);
+        return produtoRepo.atualizarProduto(produto);
     }
 
-    public void listarProdutos() {
-        produtoRepo.listarProdutos();
+    public List<Produto> listarProdutos() {
+        return produtoRepo.listarProdutos();
     }
 
-    public void buscarProduto(int id) {
-        produtoRepo.buscarProduto(id);
+    public Produto buscarProduto(int id) {
+        return produtoRepo.buscarProduto(id);
     }
 }

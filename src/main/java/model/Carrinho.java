@@ -21,6 +21,9 @@ public class Carrinho {
     )
     private List<Produto> produtos;
 
+    @OneToOne(mappedBy = "carrinho")
+    private Cliente cliente;
+
     private int quantidadeTotal;
     private double valorTotal;
 
@@ -88,5 +91,15 @@ public class Carrinho {
 
     public void setValorTotal(double valorTotal) {
         this.valorTotal = valorTotal;
+    }
+
+    @Override
+    public String toString() {
+        return "Carrinho{" +
+                "id=" + id +
+                ", produtos=" + produtos +
+                ", quantidadeTotal=" + quantidadeTotal +
+                ", valorTotal=" + valorTotal +
+                '}';
     }
 }

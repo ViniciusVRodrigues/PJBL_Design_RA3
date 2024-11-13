@@ -5,6 +5,8 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import model.Pedido;
 
+import java.util.List;
+
 public class PedidoRepository {
     private static PedidoRepository instance;
     private EntityManagerFactory emf;
@@ -24,20 +26,21 @@ public class PedidoRepository {
         return emf.createEntityManager();
     }
 
-    public void adicionarPedido(Pedido pedido) {
+    public boolean adicionarPedido(Pedido pedido) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             em.persist(pedido);
             em.getTransaction().commit();
+            return true;
         } catch (RuntimeException e) {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw e; // Rethrow exception after transaction rollback
         } finally {
             em.close();
         }
+        return false;
     }
 
     public Pedido buscarPedido(int id) {
@@ -49,36 +52,47 @@ public class PedidoRepository {
         }
     }
 
-    public void atualizarPedido(Pedido pedido) {
+    public List<Pedido> listarPedidos() {
         EntityManager em = getEntityManager();
         try {
-            em.getTransaction().begin();
-            em.merge(pedido);
-            em.getTransaction().commit();
-        } catch (RuntimeException e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            throw e; // Rethrow exception after transaction rollback
+            return em.createQuery("from Pedido", Pedido.class).getResultList();
         } finally {
             em.close();
         }
     }
 
-    public void removerPedido(int id) {
+    public boolean atualizarPedido(Pedido pedido) {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.merge(pedido);
+            em.getTransaction().commit();
+            return true;
+        } catch (RuntimeException e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+        } finally {
+            em.close();
+        }
+        return false;
+    }
+
+    public boolean removerPedido(int id) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             Pedido pedido = em.find(Pedido.class, id);
             em.remove(pedido);
             em.getTransaction().commit();
+            return true;
         } catch (RuntimeException e) {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw e; // Rethrow exception after transaction rollback
         } finally {
             em.close();
         }
+        return false;
     }
 }

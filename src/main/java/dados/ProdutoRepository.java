@@ -27,20 +27,21 @@ public class ProdutoRepository {
         return emf.createEntityManager();
     }
 
-    public void adicionarProduto(Produto produto) {
+    public boolean adicionarProduto(Produto produto) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             em.persist(produto);
             em.getTransaction().commit();
+            return true;
         } catch (RuntimeException e) {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw e; // Rethrow exception after transaction rollback
         } finally {
             em.close();
         }
+        return false;
     }
 
     public Produto buscarProduto(int id) {
@@ -61,7 +62,7 @@ public class ProdutoRepository {
         }
     }
 
-    public void atualizarProduto(Produto produto) {
+    public boolean atualizarProduto(Produto produto) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
@@ -71,26 +72,27 @@ public class ProdutoRepository {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw e; // Rethrow exception after transaction rollback
         } finally {
             em.close();
         }
+        return false;
     }
 
-    public void removerProduto(int id) {
+    public boolean removerProduto(int id) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             Produto produto = em.find(Produto.class, id);
             em.remove(produto);
             em.getTransaction().commit();
+            return true;
         } catch (RuntimeException e) {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw e; // Rethrow exception after transaction rollback
         } finally {
             em.close();
         }
+        return false;
     }
 }

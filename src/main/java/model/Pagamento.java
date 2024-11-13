@@ -68,12 +68,15 @@ public class Pagamento {
         this.status = status;
     }
 
-    public Pedido getPedido() {
-        return pedido;
-    }
-
-    public void setPedido(Pedido pedido) {
-        this.pedido = pedido;
+    @Override
+    public String toString() {
+        return "Pagamento{" +
+                "id=" + id +
+                ", dataPagamento=" + dataPagamento +
+                ", valor=" + valor +
+                ", metodoPagamento='" + metodoPagamento + '\'' +
+                ", status='" + status + '\'' +
+                '}';
     }
 }
 

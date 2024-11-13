@@ -9,9 +9,9 @@ import java.util.List;
 public class ClienteService {
     private ClienteRepository clienteRepo = ClienteRepository.getInstance();
 
-    public void registrarCliente(String nome, String email, String endereco, String telefone) {
+    public boolean registrarCliente(String nome, String email, String endereco, String telefone) {
         Cliente cliente = new Cliente(nome, email, endereco, telefone);
-        clienteRepo.adicionarCliente(cliente);
+        return clienteRepo.adicionarCliente(cliente);
     }
 
     public List<Pedido> visualizarHistoricoPedidos(int clienteId) {
@@ -22,11 +22,20 @@ public class ClienteService {
         return clienteRepo.buscarCliente(id);
     }
 
-    public void atualizarCliente(Cliente cliente) {
-        clienteRepo.atualizarCliente(cliente);
+    public List<Cliente> listarClientes() {
+        return clienteRepo.listarClientes();
     }
 
-    public void removerCliente(int id) {
-        clienteRepo.removerCliente(id);
+    public boolean atualizarCliente(int id, String nome, String email, String endereco, String telefone) {
+        Cliente cliente = clienteRepo.buscarCliente(id);
+        cliente.setNome(nome);
+        cliente.setEmail(email);
+        cliente.setEndereco(endereco);
+        cliente.setTelefone(telefone);
+        return clienteRepo.atualizarCliente(cliente);
+    }
+
+    public boolean removerCliente(int id) {
+        return clienteRepo.removerCliente(id);
     }
 }
