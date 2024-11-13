@@ -55,7 +55,7 @@ public class PedidoRepository {
     public List<Pedido> listarPedidos() {
         EntityManager em = getEntityManager();
         try {
-            return em.createQuery("from Pedido", Pedido.class).getResultList();
+            return em.createQuery("select p from Pedido p", Pedido.class).getResultList();
         } finally {
             em.close();
         }

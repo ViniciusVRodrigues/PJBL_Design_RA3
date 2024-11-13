@@ -56,7 +56,7 @@ public class ProdutoRepository {
     public List<Produto> listarProdutos() {
         EntityManager em = getEntityManager();
         try {
-            return em.createQuery("from Produto", Produto.class).getResultList();
+            return em.createQuery("select p from Produto p", Produto.class).getResultList();
         } finally {
             em.close();
         }

@@ -55,7 +55,7 @@ public class PagamentoRepository {
     public List<Pagamento> listarPagamentos() {
         EntityManager em = getEntityManager();
         try {
-            return em.createQuery("from Pagamento", Pagamento.class).getResultList();
+            return em.createQuery("select p from Pagamento p", Pagamento.class).getResultList();
         } finally {
             em.close();
         }
