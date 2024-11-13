@@ -68,6 +68,7 @@ public class ProdutoRepository {
             em.getTransaction().begin();
             em.merge(produto);
             em.getTransaction().commit();
+            return true;
         } catch (RuntimeException e) {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();

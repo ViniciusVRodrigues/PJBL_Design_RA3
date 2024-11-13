@@ -71,4 +71,14 @@ public class Produto {
                 ", estoque=" + estoque +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        Produto produto = (Produto) obj;
+        return id == produto.id;
+    }
 }

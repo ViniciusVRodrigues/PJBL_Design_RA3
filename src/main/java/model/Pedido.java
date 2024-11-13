@@ -107,5 +107,14 @@ public class Pedido {
                 ", pagamento=" + pagamento.getStatus() +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Pedido) {
+            Pedido p = (Pedido) obj;
+            return p.getId() == this.id;
+        }
+        return false;
+    }
 }
 

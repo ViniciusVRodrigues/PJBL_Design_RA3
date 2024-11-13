@@ -119,4 +119,13 @@ public class Cliente {
 				", telefone='" + telefone + '\'' +
 				'}';
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Cliente) {
+			Cliente c = (Cliente) obj;
+			return c.getId() == this.id;
+		}
+		return false;
+	}
 }

@@ -78,5 +78,13 @@ public class Pagamento {
                 ", status='" + status + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Pagamento)) return false;
+        Pagamento pagamento = (Pagamento) obj;
+        return getId() == pagamento.getId();
+    }
 }
 

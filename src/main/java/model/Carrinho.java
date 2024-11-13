@@ -102,4 +102,13 @@ public class Carrinho {
                 ", valorTotal=" + valorTotal +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Carrinho) {
+            Carrinho c = (Carrinho) obj;
+            return c.getId() == this.id;
+        }
+        return false;
+    }
 }
