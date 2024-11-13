@@ -3,24 +3,19 @@ package dados;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import model.Cliente;
 import model.Pedido;
-import model.Produto;
 
-import java.util.List;
-
-public class ClienteRepository {
-
-    private static ClienteRepository instance;
+public class PedidoRepository {
+    private static PedidoRepository instance;
     private EntityManagerFactory emf;
 
-    private ClienteRepository() {
+    private PedidoRepository() {
         emf = Persistence.createEntityManagerFactory("mercadoPU");
     }
 
-    public static ClienteRepository getInstance() {
+    public static PedidoRepository getInstance() {
         if (instance == null) {
-            instance = new ClienteRepository();
+            instance = new PedidoRepository();
         }
         return instance;
     }
@@ -29,11 +24,11 @@ public class ClienteRepository {
         return emf.createEntityManager();
     }
 
-    public void adicionarCliente(Cliente cliente) {
+    public void adicionarPedido(Pedido pedido) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(cliente);
+            em.persist(pedido);
             em.getTransaction().commit();
         } catch (RuntimeException e) {
             if (em.getTransaction().isActive()) {
@@ -45,20 +40,20 @@ public class ClienteRepository {
         }
     }
 
-    public Cliente buscarCliente(int id) {
+    public Pedido buscarPedido(int id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Cliente.class, id);
+            return em.find(Pedido.class, id);
         } finally {
             em.close();
         }
     }
 
-    public void atualizarCliente(Cliente cliente) {
+    public void atualizarPedido(Pedido pedido) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            em.merge(cliente);
+            em.merge(pedido);
             em.getTransaction().commit();
         } catch (RuntimeException e) {
             if (em.getTransaction().isActive()) {
@@ -70,22 +65,12 @@ public class ClienteRepository {
         }
     }
 
-    public List<Pedido> obterHistoricoPedidos(int clienteId) {
+    public void removerPedido(int id) {
         EntityManager em = getEntityManager();
         try {
-            Cliente cliente = em.find(Cliente.class, clienteId);
-            return cliente.getHistoricoPedidos();
-        } finally {
-            em.close();
-        }
-    }
-
-    public void removerCliente(int id) {
-        EntityManager em = getEntityManager();
-        try {
-            Cliente cliente = em.find(Cliente.class, id);
             em.getTransaction().begin();
-            em.remove(cliente);
+            Pedido pedido = em.find(Pedido.class, id);
+            em.remove(pedido);
             em.getTransaction().commit();
         } catch (RuntimeException e) {
             if (em.getTransaction().isActive()) {
@@ -97,4 +82,3 @@ public class ClienteRepository {
         }
     }
 }
-

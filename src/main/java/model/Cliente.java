@@ -1,6 +1,8 @@
 package model;
 
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,7 +17,10 @@ public class Cliente {
 	private String endereco;
 	private String telefone;
 
-	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Carrinho carrinho;
+
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	private List<Pedido> historicoPedidos;
 
 	public Cliente(String nome, String email, String endereco, String telefone) {
@@ -23,9 +28,13 @@ public class Cliente {
 		this.email = email;
 		this.endereco = endereco;
 		this.telefone = telefone;
+		this.carrinho = new Carrinho();
+		historicoPedidos = new ArrayList<Pedido>();
 	}
 
 	public Cliente() {
+		this.carrinho = new Carrinho();
+		historicoPedidos = new ArrayList<Pedido>();
 	}
 
 	//Getters e Setters
@@ -74,6 +83,15 @@ public class Cliente {
 		this.historicoPedidos.add(pedido);
 	}
 
+	public Pedido buscarPedido(int id) {
+		for (Pedido p : historicoPedidos) {
+			if (p.getId() == id) {
+				return p;
+			}
+		}
+		return null;
+	}
+
 	public void removerPedido(Pedido pedido) {
 		this.historicoPedidos.remove(pedido);
 	}
@@ -84,5 +102,9 @@ public class Cliente {
 				p = pedido;
 			}
 		}
+	}
+
+	public Carrinho getCarrinho() {
+		return carrinho;
 	}
 }

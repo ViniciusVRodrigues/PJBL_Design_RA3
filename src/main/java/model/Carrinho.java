@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class CarrinhoDeCompras {
+
+public class Carrinho {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,13 +24,13 @@ public class CarrinhoDeCompras {
     private int quantidadeTotal;
     private double valorTotal;
 
-    public CarrinhoDeCompras(int quantidadeTotal, double valorTotal) {
+    public Carrinho(int quantidadeTotal, double valorTotal) {
         this.quantidadeTotal = quantidadeTotal;
         this.valorTotal = valorTotal;
         produtos = new ArrayList<>();
     }
 
-    public CarrinhoDeCompras() {
+    public Carrinho() {
     }
 
     //Getters e Setters
@@ -38,35 +39,39 @@ public class CarrinhoDeCompras {
         return id;
     }
 
+    public void calcularTotal() {
+        double total = 0;
+        int quantidade = 0;
+        for (Produto p : produtos) {
+            total += p.getPreco();
+            quantidade++;
+        }
+        this.valorTotal = total;
+        this.quantidadeTotal = quantidade;
+    }
+
     public List<Produto> getProdutos() {
         return produtos;
     }
 
     public void setProdutos(List<Produto> produtos) {
         this.produtos = produtos;
+        calcularTotal();
     }
 
     public void addProduto(Produto produto) {
         this.produtos.add(produto);
-    }
-
-    public void editProduto(Produto produto) {
-        for (Produto p : produtos) {
-            if (p.getId() == produto.getId()) {
-                p.setNome(produto.getNome());
-                p.setDescricao(produto.getDescricao());
-                p.setPreco(produto.getPreco());
-                p.setEstoque(produto.getEstoque());
-            }
-        }
+        calcularTotal();
     }
 
     public void removeProduto(Produto produto) {
         this.produtos.remove(produto);
+        calcularTotal();
     }
 
     public void limparCarrinho() {
         this.produtos.clear();
+        calcularTotal();
     }
 
     public int getQuantidadeTotal() {

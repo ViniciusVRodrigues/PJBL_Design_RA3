@@ -36,10 +36,34 @@ Métodos: processarPagamento(), confirmarPagamento()
 Relações entre as Classes
 Associação:
 
-Pedido está associado ao Cliente, pois cada pedido pertence a um cliente específico.
-Pedido possui uma lista de Produto porque um pedido pode conter vários produtos.
-CarrinhoDeCompras possui uma lista de Produto, pois o carrinho é preenchido pelos itens que o cliente deseja comprar.
-Dependência:
+Cliente 1 pra 1 CarrinhoDeCompras
+Cliente 1 pra 1 Pagamento
+Cliente 1 pra 1 Pedido
+CarrinhoDeCompras N pra N Produto.
+Pedido N pra N Produto.
+Pedido 1 pra 1 Pagamento.
 
-Pedido depende de Pagamento, pois o pedido só é finalizado após o pagamento ser confirmado.
-CarrinhoDeCompras depende de Produto e Pedido, pois utiliza produtos que serão eventualmente convertidos em um pedido.
+Esquema de Pacotes
+├── apresentacao       // Camada de apresentação (UI)
+│   ├── ClienteUI.java
+│   ├── ProdutoUI.java
+│   └── PedidoUI.java
+│
+├── negocio            // Camada de negócio (Lógica de Negócio)
+│   ├── ClienteService.java
+│   ├── ProdutoService.java
+│   ├── PedidoService.java
+│   ├── CarrinhoDeComprasService.java
+│   └── PagamentoService.java
+│
+├── dados              // Camada de dados (Acesso a Dados)
+│   ├── ClienteRepository.java
+│   ├── ProdutoRepository.java
+│   └── PedidoRepository.java
+│
+└── modelo             // Entidades e classes de modelo de dados
+    ├── Cliente.java
+    ├── Produto.java
+    ├── Pedido.java
+    ├── CarrinhoDeCompras.java
+    └── Pagamento.java

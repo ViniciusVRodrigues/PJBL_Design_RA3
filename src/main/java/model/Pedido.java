@@ -21,6 +21,9 @@ public class Pedido {
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
+    @OneToOne(mappedBy = "pedido")
+    private Pagamento pagamento;
+
     @ManyToMany
     @JoinTable(
             name = "pedido_produto",
