@@ -10,6 +10,7 @@ public class PagamentoService {
 
     public boolean atualizarPagamento(int idPagamento, String status) {
         Pagamento pagamento = pagamentoRepo.buscarPagamento(idPagamento);
+        if(pagamento==null) return false;
         pagamento.setStatus(status);
         return pagamentoRepo.atualizarPagamento(pagamento);
     }
@@ -24,12 +25,14 @@ public class PagamentoService {
 
     public boolean confirmarPagamento(int idPagamento) {
         Pagamento pagamento = pagamentoRepo.buscarPagamento(idPagamento);
+        if(pagamento==null) return false;
         pagamento.setStatus("Confirmado");
         return pagamentoRepo.atualizarPagamento(pagamento);
     }
 
     public boolean cancelarPagamento(int idPagamento) {
         Pagamento pagamento = pagamentoRepo.buscarPagamento(idPagamento);
+        if(pagamento==null) return false;
         pagamento.setStatus("Cancelado");
         return pagamentoRepo.atualizarPagamento(pagamento);
     }

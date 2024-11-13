@@ -19,6 +19,7 @@ public class ProdutoService {
 
     public boolean atualizarProduto(int id, String nome, String descricao,double preco , int estoque) {
         Produto produto = produtoRepo.buscarProduto(id);
+        if(produto==null) return false;
         produto.setNome(nome);
         produto.setDescricao(descricao);
         produto.setPreco(preco);

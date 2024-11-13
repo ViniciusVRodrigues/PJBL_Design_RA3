@@ -15,7 +15,9 @@ public class ClienteService {
     }
 
     public List<Pedido> visualizarHistoricoPedidos(int clienteId) {
-        return clienteRepo.obterHistoricoPedidos(clienteId);
+        Cliente cliente = clienteRepo.buscarCliente(clienteId);
+        if(cliente==null) return null;
+        return cliente.getHistoricoPedidos();
     }
 
     public Cliente buscarCliente(int id) {
@@ -28,6 +30,7 @@ public class ClienteService {
 
     public boolean atualizarCliente(int id, String nome, String email, String endereco, String telefone) {
         Cliente cliente = clienteRepo.buscarCliente(id);
+        if(cliente==null) return false;
         cliente.setNome(nome);
         cliente.setEmail(email);
         cliente.setEndereco(endereco);

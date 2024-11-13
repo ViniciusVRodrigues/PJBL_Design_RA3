@@ -81,16 +81,6 @@ public class ClienteRepository {
         return false;
     }
 
-    public List<Pedido> obterHistoricoPedidos(int clienteId) {
-        EntityManager em = getEntityManager();
-        try {
-            Cliente cliente = em.find(Cliente.class, clienteId);
-            return cliente.getHistoricoPedidos();
-        } finally {
-            em.close();
-        }
-    }
-
     public boolean removerCliente(int id) {
         EntityManager em = getEntityManager();
         try {
